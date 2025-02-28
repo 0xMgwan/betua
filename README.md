@@ -55,7 +55,7 @@ NEXT_PUBLIC_ENVIRONMENT=development
 npm run dev
 ```
 
-Visit `http://localhost:3000` to see the application.
+Visit `https://betua-two.vercel.app/` to see the application.
 
 ## Deployment
 
@@ -72,8 +72,8 @@ The application is deployed on Vercel. To deploy your own instance:
 ## Smart Contracts
 
 The betting smart contracts are deployed on:
-- Polygon Mumbai (Testnet): `[Contract Address]`
-- Polygon Mainnet: `[Contract Address]`
+- Sepolia: `[0x8fD222cd4E8eeBB2d1357A62DBF9aC753A83AE25]`
+- Polygon Mumbai (Testnet): `[TBC]`
 
 ## Contributing
 
