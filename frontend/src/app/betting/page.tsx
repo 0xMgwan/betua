@@ -5,10 +5,24 @@ import { Navigation } from '../components/Navigation';
 import Logo from '../components/Logo';
 import { WalletButton } from '../components/WalletButton';
 
-export default function BettingPage() {
-  const [selectedMatch, setSelectedMatch] = useState(null);
+interface Match {
+  id: number;
+  homeTeam: string;
+  awayTeam: string;
+  date: string;
+  time: string;
+  odds: {
+    home: number;
+    draw: number;
+    away: number;
+  };
+  league: string;
+}
 
-  const matches = [
+export default function BettingPage() {
+  const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
+
+  const matches: Match[] = [
     {
       id: 1,
       homeTeam: 'Arsenal',
