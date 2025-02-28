@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AfricaBet: Multichain Sports Prediction Platform
 
 ## Project Overview
@@ -151,3 +152,7 @@ Design and implement a decentralized sports betting and prediction platform spec
 - Regulatory compliance monitoring
 
 This project aims to revolutionize sports betting in Africa by providing a secure, accessible, and efficient platform that leverages blockchain technology while considering local market needs and constraints.
+=======
+# africa-sports-predict
+Decentralized AI-powered sports betting and predictions protocol for p2p markets 
+>>>>>>> 9c006e15b4e10edcefb00a846c0724d030be0b7f
