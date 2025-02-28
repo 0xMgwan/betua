@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAccount, useContractRead, useContractWrite } from 'wagmi';
-import { ethers } from 'ethers';
+import { parseEther, formatEther } from 'viem';
 
 interface Comment {
   id: number;
@@ -94,8 +94,8 @@ export default function Comments({ contractAddress, contractABI, targetId, isEve
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-gray-600">
-                  {ethers.utils.getAddress(comment.commenter).substring(0, 6)}...
-                  {ethers.utils.getAddress(comment.commenter).substring(38)}
+                  {comment.commenter.substring(0, 6)}...
+                  {comment.commenter.substring(38)}
                 </p>
                 <p className="mt-1">{comment.content}</p>
               </div>
