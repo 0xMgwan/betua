@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# Production
+/build
+/dist
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Hardhat
+cache/
+artifacts/
+
+# TypeScript
+*.tsbuildinfo
+
+# Contract artifacts
+/contracts/typechain-types/
+/contracts/cache/
+/contracts/artifacts/
+
+# Local blockchain data
+/contracts/deployments/localhost/
+
+# MongoDB data
+/data/
+
+# Logs
+logs
+*.log
