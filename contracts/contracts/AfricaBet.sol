@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
-contract AfricaBet is ReentrancyGuard, Ownable {
+contract BetUA is ReentrancyGuard, Ownable {
     struct Bet {
         uint256 id;
         address bettor;

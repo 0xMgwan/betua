@@ -119,7 +119,7 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "⚠️ System Alert - AfricaBet Platform"
+          subject: "⚠️ System Alert - BetUA Platform"
           body: System monitoring has detected issues. Please check the GitHub Actions logs.
           to: ${{ secrets.ALERT_EMAIL }}
-          from: AfricaBet Monitoring
+          from: BetUA Monitoring

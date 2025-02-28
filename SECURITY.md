@@ -8,12 +8,12 @@
 
 ## Reporting a Vulnerability
 
-We take the security of AfricaBet seriously. If you believe you have found a security vulnerability, please report it to us as described below.
+We take the security of BetUA seriously. If you believe you have found a security vulnerability, please report it to us as described below.
 
 ### Reporting Process
 
 1. **DO NOT** create a public GitHub issue for the vulnerability.
-2. Email your findings to `security@yourdomain.com`.
+2. Email your findings to `security@betua.com`.
 3. Include detailed steps to reproduce the issue.
 4. We will acknowledge receipt of your vulnerability report within 48 hours.
 
@@ -97,6 +97,6 @@ Details of our bug bounty program will be announced soon. The program will inclu
 ## Contact
 
 For security concerns, please contact:
-- Email: security@yourdomain.com
-- Telegram: @AfricaBetSecurity
-- Discord: AfricaBet Security Team
+- Email: security@betua.com
+- Telegram: @BetUASecurity
+- Discord: BetUA Security Team

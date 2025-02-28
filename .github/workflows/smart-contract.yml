@@ -125,7 +125,7 @@ jobs:
       - name: Send Discord notification
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Smart Contract deployment ${{ job.status }}'
+          args: 'BetUA Smart Contract deployment ${{ job.status }}'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         if: always()
