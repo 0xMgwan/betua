@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Navigation } from '../components/Navigation';
 import Logo from '../components/Logo';
 import { WalletButton } from '../components/WalletButton';
+import EventCard from '../components/EventCard';
 
 interface Match {
   id: number;
@@ -18,6 +19,26 @@ interface Match {
   };
   league: string;
 }
+
+// Sample contract ABI - replace with actual ABI
+const contractABI = [
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "eventId",
+        "type": "uint256"
+      }
+    ],
+    "name": "placeBet",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  }
+];
+
+// Contract address - replace with actual deployed contract address
+const contractAddress = '0x1234567890123456789012345678901234567890' as `0x${string}`;
 
 export default function BettingPage() {
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
@@ -83,37 +104,12 @@ export default function BettingPage() {
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {matches.map((match) => (
-            <div
+            <EventCard
               key={match.id}
-              className="bg-gradient-to-br from-black/50 to-blue-900/20 backdrop-blur-sm rounded-xl p-6 border border-blue-500/10 hover:border-blue-500/30 transition-all cursor-pointer"
-              onClick={() => setSelectedMatch(match)}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <div className="text-sm text-blue-400">{match.league}</div>
-                <div className="text-sm text-gray-400">{match.date} - {match.time}</div>
-              </div>
-
-              <div className="flex justify-between items-center mb-6">
-                <div className="text-lg font-semibold text-white">{match.homeTeam}</div>
-                <div className="text-sm text-gray-400">vs</div>
-                <div className="text-lg font-semibold text-white">{match.awayTeam}</div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
-                <button className="px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg text-white hover:from-blue-500 hover:to-blue-600 transition-all">
-                  <div className="text-sm mb-1">Home</div>
-                  <div className="text-lg font-semibold">{match.odds.home}</div>
-                </button>
-                <button className="px-4 py-3 bg-gradient-to-r from-yellow-600 to-yellow-700 rounded-lg text-white hover:from-yellow-500 hover:to-yellow-600 transition-all">
-                  <div className="text-sm mb-1">Draw</div>
-                  <div className="text-lg font-semibold">{match.odds.draw}</div>
-                </button>
-                <button className="px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg text-white hover:from-blue-500 hover:to-blue-600 transition-all">
-                  <div className="text-sm mb-1">Away</div>
-                  <div className="text-lg font-semibold">{match.odds.away}</div>
-                </button>
-              </div>
-            </div>
+              event={match}
+              contractAddress={contractAddress}
+              contractABI={contractABI}
+            />
           ))}
         </div>
       </div>

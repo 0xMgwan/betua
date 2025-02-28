@@ -11,7 +11,7 @@ interface EventCardProps {
     endTime: number;
     settled: boolean;
   };
-  contractAddress: string;
+  contractAddress: `0x${string}`;
   contractABI: any;
 }
 
@@ -20,7 +20,7 @@ export default function EventCard({ event, contractAddress, contractABI }: Event
   const [showComments, setShowComments] = useState(false);
 
   const { write: placeBet } = useContractWrite({
-    address: contractAddress as `0x${string}`,
+    address: contractAddress,
     abi: contractABI,
     functionName: 'placeBet',
   });
