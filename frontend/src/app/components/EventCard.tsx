@@ -1,16 +1,26 @@
+'use client';
+
 import { useState } from 'react';
 import { useContractWrite } from 'wagmi';
-import { parseUnits } from 'ethers/lib/utils';
+import { parseEther } from 'viem';
 import Comments from './Comments';
 
-interface EventCardProps {
-  event: {
-    id: number;
-    name: string;
-    startTime: number;
-    endTime: number;
-    settled: boolean;
+interface Match {
+  id: number;
+  homeTeam: string;
+  awayTeam: string;
+  date: string;
+  time: string;
+  odds: {
+    home: number;
+    draw: number;
+    away: number;
   };
+  league: string;
+}
+
+interface EventCardProps {
+  event: Match;
   contractAddress: `0x${string}`;
   contractABI: any;
 }
@@ -18,6 +28,7 @@ interface EventCardProps {
 export default function EventCard({ event, contractAddress, contractABI }: EventCardProps) {
   const [betAmount, setBetAmount] = useState('');
   const [showComments, setShowComments] = useState(false);
+  const [selectedOutcome, setSelectedOutcome] = useState<'home' | 'draw' | 'away' | null>(null);
 
   const { write: placeBet } = useContractWrite({
     address: contractAddress,
@@ -25,91 +36,108 @@ export default function EventCard({ event, contractAddress, contractABI }: Event
     functionName: 'placeBet',
   });
 
-  const handlePlaceBet = () => {
-    if (!betAmount) return;
-    placeBet({
-      args: [event.id, parseUnits(betAmount, 6)],
-    });
+  const handleBet = () => {
+    if (!betAmount || !selectedOutcome) return;
+    
+    try {
+      const amount = parseEther(betAmount);
+      placeBet({
+        args: [event.id, selectedOutcome],
+        value: amount,
+      });
+    } catch (error) {
+      console.error('Error placing bet:', error);
+    }
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-[1.02] hover:shadow-xl">
-      <div className="p-6">
-        {/* Event Header */}
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="text-xl font-semibold text-gray-900">{event.name}</h3>
-          <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-            {event.settled ? 'Settled' : 'Active'}
-          </span>
-        </div>
-
-        {/* Event Details */}
-        <div className="space-y-2 mb-6">
-          <p className="text-sm text-gray-600">
-            Starts: {new Date(event.startTime * 1000).toLocaleString()}
-          </p>
-          <p className="text-sm text-gray-600">
-            Ends: {new Date(event.endTime * 1000).toLocaleString()}
-          </p>
-        </div>
-
-        {/* Betting Interface */}
-        {!event.settled && (
-          <div className="space-y-3">
-            <div className="relative">
-              <input
-                type="number"
-                placeholder="Bet amount (USDC)"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={betAmount}
-                onChange={(e) => setBetAmount(e.target.value)}
-              />
-              <span className="absolute right-3 top-2 text-gray-500">USDC</span>
-            </div>
-            <button
-              onClick={handlePlaceBet}
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Place Bet
-            </button>
-          </div>
-        )}
-
-        {/* Comments Toggle */}
-        <div className="mt-6 pt-6 border-t border-gray-200">
-          <button
-            onClick={() => setShowComments(!showComments)}
-            className="flex items-center text-sm text-gray-600 hover:text-blue-600 transition-colors"
-          >
-            <svg
-              className={`w-5 h-5 mr-2 transition-transform ${showComments ? 'rotate-180' : ''}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-            Discussion ({event.id})
-          </button>
-
-          {/* Comments Section */}
-          {showComments && (
-            <div className="mt-4">
-              <Comments
-                contractAddress={contractAddress}
-                contractABI={contractABI}
-                targetId={event.id}
-                isEventComment={true}
-              />
-            </div>
-          )}
-        </div>
+    <div className="bg-gradient-to-br from-black/50 to-blue-900/20 backdrop-blur-sm rounded-xl p-6 border border-blue-500/10">
+      <div className="flex justify-between items-center mb-4">
+        <div className="text-sm text-blue-400">{event.league}</div>
+        <div className="text-sm text-gray-400">{event.date} - {event.time}</div>
       </div>
+
+      <div className="flex justify-between items-center mb-6">
+        <div className="text-lg font-semibold text-white">{event.homeTeam}</div>
+        <div className="text-sm text-gray-400">vs</div>
+        <div className="text-lg font-semibold text-white">{event.awayTeam}</div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        <button 
+          onClick={() => setSelectedOutcome('home')}
+          className={`px-4 py-3 rounded-lg text-white transition-all ${
+            selectedOutcome === 'home' 
+              ? 'bg-blue-600' 
+              : 'bg-blue-900/50 hover:bg-blue-900/70'
+          }`}
+        >
+          <div className="text-sm mb-1">Home</div>
+          <div className="text-lg font-semibold">{event.odds.home}x</div>
+        </button>
+        <button 
+          onClick={() => setSelectedOutcome('draw')}
+          className={`px-4 py-3 rounded-lg text-white transition-all ${
+            selectedOutcome === 'draw' 
+              ? 'bg-yellow-600' 
+              : 'bg-yellow-900/50 hover:bg-yellow-900/70'
+          }`}
+        >
+          <div className="text-sm mb-1">Draw</div>
+          <div className="text-lg font-semibold">{event.odds.draw}x</div>
+        </button>
+        <button 
+          onClick={() => setSelectedOutcome('away')}
+          className={`px-4 py-3 rounded-lg text-white transition-all ${
+            selectedOutcome === 'away' 
+              ? 'bg-blue-600' 
+              : 'bg-blue-900/50 hover:bg-blue-900/70'
+          }`}
+        >
+          <div className="text-sm mb-1">Away</div>
+          <div className="text-lg font-semibold">{event.odds.away}x</div>
+        </button>
+      </div>
+
+      {selectedOutcome && (
+        <div className="flex gap-4 mb-6">
+          <input
+            type="number"
+            value={betAmount}
+            onChange={(e) => setBetAmount(e.target.value)}
+            placeholder="Enter bet amount"
+            className="flex-1 px-4 py-2 bg-black/30 border border-blue-500/20 rounded-lg focus:outline-none focus:border-blue-500/50 text-white"
+            min="0"
+            step="0.01"
+          />
+          <button
+            onClick={handleBet}
+            className="px-6 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg text-white transition-colors"
+          >
+            Place Bet
+          </button>
+        </div>
+      )}
+
+      <div className="flex justify-between items-center mb-4">
+        <button
+          onClick={() => setShowComments(!showComments)}
+          className="text-blue-400 hover:text-blue-500 transition-colors"
+        >
+          {showComments ? 'Hide Comments' : 'Show Comments'}
+        </button>
+      </div>
+
+      {showComments && (
+        <div className="mt-4">
+          <Comments
+            contractAddress={contractAddress}
+            contractABI={contractABI}
+            targetId={event.id}
+            isEventComment={true}
+          />
+        </div>
+      )}
     </div>
   );
 }
