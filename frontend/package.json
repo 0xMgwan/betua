@@ -1,6 +1,7 @@
 {
-  "name": "africabet-frontend",
+  "name": "betua-frontend",
   "version": "1.0.0",
+  "description": "BetUA - Next-generation sports betting platform with AI-powered predictions",
   "private": true,
   "scripts": {
     "dev": "next dev",

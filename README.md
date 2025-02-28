@@ -1,158 +1,84 @@
-<<<<<<< HEAD
-# AfricaBet: Multichain Sports Prediction Platform
+# BetUA Platform
 
-## Project Overview
-Design and implement a decentralized sports betting and prediction platform specifically tailored for the African market. The platform will leverage blockchain technology across multiple chains to ensure accessibility, transparency, and efficient cross-border transactions.
+BetUA is a next-generation sports betting platform that combines blockchain technology with AI-powered predictions to provide users with the most advanced betting experience.
 
-## Core Features
+## Features
 
-### 1. Multi-Chain Integration
-- Primary chains: Ethereum, Binance Smart Chain, and Polygon
-- Cross-chain bridge functionality for seamless token transfers
-- Smart contract deployment across multiple chains
-- Universal wallet integration supporting major African mobile money platforms
+- AI-powered sports predictions
+- Secure blockchain-based betting
+- Real-time odds and updates
+- User-friendly interface
+- Multi-wallet support
+- Comprehensive analytics
 
-### 2. Sports Coverage
-- Football (Primary focus on African leagues, European leagues, and international competitions)
-- Basketball (NBA, African Basketball League)
-- Cricket
-- Rugby
-- Athletics events
-- Integration with reliable sports data oracles
+## Technology Stack
 
-### 3. Betting Features
-- Match outcome predictions
-- Score predictions
-- Player performance metrics
-- Tournament winners
-- Live betting capabilities
-- Automated market making (AMM) for odds calculation
-- Peer-to-peer betting pools
+- **Frontend**: Next.js, Tailwind CSS, RainbowKit
+- **Backend**: Node.js, Express, MongoDB
+- **Blockchain**: Solidity, Hardhat
+- **AI**: OpenAI GPT, Custom ML Models
+- **Infrastructure**: Digital Ocean, Vercel
 
-### 4. User Experience
-- Mobile-first design approach
-- Support for low-bandwidth environments
-- Multiple language support (English, Swahili, French, Arabic)
-- Integration with local payment methods
-- Simple onboarding process for crypto newcomers
+## Getting Started
 
-### 5. Technical Requirements
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/0xMgwan/betua.git
+   cd betua
+   ```
 
-#### Smart Contracts
-- Implement prediction market contracts
-- Oracle integration for real-world sports data
-- Automated settlement system
-- Multi-signature wallet implementation for platform security
-- Liquidity pool management
-- Cross-chain bridge contracts
+2. Install dependencies:
+   ```bash
+   # Install frontend dependencies
+   cd frontend
+   npm install
 
-#### Frontend Development
-- Progressive Web App (PWA) implementation
-- React/Next.js for frontend framework
-- Web3.js/ethers.js for blockchain interaction
-- Mobile responsive design
-- Offline functionality support
+   # Install backend dependencies
+   cd ../backend
+   npm install
 
-#### Backend Infrastructure
-- Node.js backend for API handling
-- MongoDB for user data storage
-- Redis for caching
-- GraphQL implementation for efficient data queries
-- Chainlink integration for oracle services
+   # Install contract dependencies
+   cd ../contracts
+   npm install
+   ```
 
-### 6. Security Features
-- Multi-signature requirements for large withdrawals
-- KYC/AML compliance framework
-- Anti-fraud detection system
-- Rate limiting and security measures
-- Regular smart contract audits
+3. Set up environment variables:
+   ```bash
+   # Frontend
+   cp frontend/.env.example frontend/.env
 
-### 7. Regulatory Compliance
-- Implementation of geofencing for restricted regions
-- Age verification system
-- Responsible gambling features
-- Compliance with local betting regulations
-- Transaction monitoring system
+   # Backend
+   cp backend/.env.example backend/.env
 
-## Market Focus
-- Primary target: Sub-Saharan Africa
-- Key markets: Nigeria, Kenya, South Africa, Ghana, Uganda
-- Focus on mobile-first users
-- Integration with local payment systems and mobile money
+   # Smart Contracts
+   cp contracts/.env.example contracts/.env
+   ```
 
-## Monetization Strategy
-- Platform fees on successful bets
-- Premium features for power users
-- Liquidity provision incentives
-- Affiliate program for user acquisition
+4. Start development servers:
+   ```bash
+   # Start frontend
+   cd frontend
+   npm run dev
 
-## Development Phases
+   # Start backend
+   cd ../backend
+   npm run dev
+   ```
 
-### Phase 1: Foundation (Months 1-3)
-- Smart contract development and testing
-- Basic frontend implementation
-- Single chain deployment (e.g., Polygon)
-- Integration with major sports data providers
+## Documentation
 
-### Phase 2: Enhancement (Months 4-6)
-- Multi-chain integration
-- Advanced betting features
-- Mobile app development
-- Local payment integration
+- [API Documentation](./docs/api.md)
+- [Smart Contract Documentation](./docs/contracts.md)
+- [Frontend Documentation](./docs/frontend.md)
 
-### Phase 3: Scaling (Months 7-9)
-- Additional sports markets
-- Enhanced UX features
-- Marketing and user acquisition
-- Community building initiatives
+## Contributing
 
-### Phase 4: Expansion (Months 10-12)
-- Additional language support
-- Advanced features rollout
-- Regional expansion
-- Partnership development
+Please read our [Contributing Guidelines](./CONTRIBUTING.md) before submitting any pull requests.
 
-## Technical Stack
+## Security
 
-### Blockchain
-- Solidity for smart contracts
-- Hardhat for development framework
-- OpenZeppelin for contract standards
-- Chainlink for oracles
-- Web3.js/ethers.js for blockchain interaction
+For security concerns, please refer to our [Security Policy](./SECURITY.md).
 
-### Frontend
-- Next.js
-- TypeScript
-- TailwindCSS
-- Ethers.js
-- PWA capabilities
+## License
 
-### Backend
-- Node.js
-- MongoDB
-- Redis
-- GraphQL
-- JWT authentication
-
-## Success Metrics
-- User acquisition and retention rates
-- Transaction volume
-- Platform liquidity
-- Cross-chain transaction success rate
-- User satisfaction metrics
-- Market coverage
-- Mobile app adoption rate
-
-## Risk Mitigation
-- Regular security audits
-- Insurance fund implementation
-- Gradual feature rollout
-- Community feedback integration
-- Regulatory compliance monitoring
-
-This project aims to revolutionize sports betting in Africa by providing a secure, accessible, and efficient platform that leverages blockchain technology while considering local market needs and constraints.
-=======
-# africa-sports-predict
-Decentralized AI-powered sports betting and predictions protocol for p2p markets 
->>>>>>> 9c006e15b4e10edcefb00a846c0724d030be0b7f
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
