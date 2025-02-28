@@ -1,3 +1,4 @@
+https://betua-two.vercel.app/
 # BetUA - AI-Powered Sports Betting Platform
 
 BetUA is a modern sports betting platform that combines AI-powered predictions with blockchain technology to provide a transparent and engaging betting experience for English Premier League matches.
