@@ -1,12 +1,12 @@
-name: Smart Contract CI
+name: Smart Contract CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
     paths:
       - 'contracts/**'
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
     paths:
       - 'contracts/**'
 
@@ -34,10 +34,12 @@ jobs:
           target: contracts/
           slither-args: --exclude naming-convention,external-function,solc-version
 
-  verify:
+  deploy-testnet:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/develop'
+    environment: testnet
+    
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js
@@ -48,7 +50,82 @@ jobs:
       - name: Install dependencies
         run: cd contracts && npm ci
       
-      - name: Verify contract on Etherscan
+      - name: Deploy to Mumbai Testnet
         env:
-          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
-        run: cd contracts && npx hardhat verify --network mumbai ${{ secrets.CONTRACT_ADDRESS }}
+          PRIVATE_KEY: ${{ secrets.TESTNET_PRIVATE_KEY }}
+          MUMBAI_RPC_URL: ${{ secrets.MUMBAI_RPC_URL }}
+        run: cd contracts && npx hardhat run scripts/deploy.js --network mumbai
+      
+      - name: Verify contract on Mumbai
+        env:
+          POLYGONSCAN_API_KEY: ${{ secrets.POLYGONSCAN_API_KEY }}
+        run: cd contracts && npx hardhat verify --network mumbai ${{ secrets.TESTNET_CONTRACT_ADDRESS }}
+
+  deploy-mainnet:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      
+      - name: Install dependencies
+        run: cd contracts && npm ci
+      
+      - name: Deploy to Polygon Mainnet
+        env:
+          PRIVATE_KEY: ${{ secrets.MAINNET_PRIVATE_KEY }}
+          POLYGON_RPC_URL: ${{ secrets.POLYGON_RPC_URL }}
+        run: cd contracts && npx hardhat run scripts/deploy.js --network polygon
+      
+      - name: Verify contract on Polygon
+        env:
+          POLYGONSCAN_API_KEY: ${{ secrets.POLYGONSCAN_API_KEY }}
+        run: cd contracts && npx hardhat verify --network polygon ${{ secrets.MAINNET_CONTRACT_ADDRESS }}
+
+  security-scan:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Run MythX analysis
+        uses: mythx/mythx-action@v1
+        with:
+          api-key: ${{ secrets.MYTHX_API_KEY }}
+          mode: deep
+          contracts: ./contracts/
+      
+      - name: Run Securify
+        uses: eth-sri/securify-action@v1
+        with:
+          files: ./contracts/contracts/
+
+  monitoring:
+    needs: [deploy-testnet, deploy-mainnet]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Send Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
+      
+      - name: Send Discord notification
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'Smart Contract deployment ${{ job.status }}'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        if: always()

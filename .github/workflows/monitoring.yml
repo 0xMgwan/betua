@@ -1,0 +1,125 @@
+name: System Monitoring
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Run every 15 minutes
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  monitor-backend:
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      - name: Check API health
+        uses: jtalk/url-health-check-action@v3
+        with:
+          url: ${{ secrets.BACKEND_URL }}/health
+          max-attempts: 3
+          retry-delay: 5s
+      
+      - name: Monitor API performance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script: |
+            pm2 status
+            df -h
+            free -m
+            top -b -n 1
+      
+      - name: Check MongoDB status
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script: |
+            mongosh --eval "db.serverStatus()"
+
+  monitor-frontend:
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      - name: Check frontend availability
+        uses: jtalk/url-health-check-action@v3
+        with:
+          url: ${{ secrets.FRONTEND_URL }}
+          max-attempts: 3
+          retry-delay: 5s
+      
+      - name: Run Lighthouse check
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          urls: |
+            ${{ secrets.FRONTEND_URL }}
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  monitor-smart-contracts:
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Check contract balance
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const Web3 = require('web3');
+            const web3 = new Web3('${{ secrets.POLYGON_RPC_URL }}');
+            const balance = await web3.eth.getBalance('${{ secrets.MAINNET_CONTRACT_ADDRESS }}');
+            console.log(`Contract balance: ${web3.utils.fromWei(balance, 'ether')} MATIC`);
+      
+      - name: Monitor contract events
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const Web3 = require('web3');
+            const web3 = new Web3('${{ secrets.POLYGON_RPC_URL }}');
+            const contract = new web3.eth.Contract(
+              JSON.parse(process.env.CONTRACT_ABI),
+              '${{ secrets.MAINNET_CONTRACT_ADDRESS }}'
+            );
+            const events = await contract.getPastEvents('allEvents', {
+              fromBlock: 'latest',
+              toBlock: 'latest'
+            });
+            console.log('Recent contract events:', events);
+
+  alert:
+    needs: [monitor-backend, monitor-frontend, monitor-smart-contracts]
+    runs-on: ubuntu-latest
+    if: failure()
+    
+    steps:
+      - name: Send Slack alert
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      
+      - name: Send Discord alert
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'System monitoring alert: ${{ job.status }}'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      
+      - name: Send email alert
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "⚠️ System Alert - AfricaBet Platform"
+          body: System monitoring has detected issues. Please check the GitHub Actions logs.
+          to: ${{ secrets.ALERT_EMAIL }}
+          from: AfricaBet Monitoring
