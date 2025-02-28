@@ -1,15 +1,14 @@
-'use client';
-
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { WalletProvider } from './providers/WalletProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata = {
-  title: 'BetUA - AI-Powered Sports Betting Platform',
-  description: 'Next-generation sports betting platform with AI-powered predictions',
-  keywords: ['betting', 'sports', 'predictions', 'AI', 'blockchain', 'web3', 'Ukraine'],
-}
+export const metadata: Metadata = {
+  title: 'BetUA - AI-Powered Sports Betting',
+  description: 'Experience the future of sports betting with AI-powered predictions and blockchain technology',
+};
 
 export default function RootLayout({
   children,
@@ -18,11 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="theme-color" content="#1E3A8A" />
-      </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <WalletProvider>
+          {children}
+        </WalletProvider>
+      </body>
     </html>
   );
 }

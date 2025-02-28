@@ -1,84 +1,91 @@
-# BetUA Platform
+# BetUA - AI-Powered Sports Betting Platform
 
-BetUA is a next-generation sports betting platform that combines blockchain technology with AI-powered predictions to provide users with the most advanced betting experience.
+BetUA is a modern sports betting platform that combines AI-powered predictions with blockchain technology to provide a transparent and engaging betting experience for English Premier League matches.
 
 ## Features
 
-- AI-powered sports predictions
-- Secure blockchain-based betting
-- Real-time odds and updates
-- User-friendly interface
-- Multi-wallet support
-- Comprehensive analytics
+- **Wallet Integration**: Secure wallet connection using RainbowKit and WagmiConfig
+- **Smart Contract Betting**: Place bets directly through blockchain smart contracts
+- **AI Predictions**: Get accurate match predictions powered by advanced algorithms
+- **Live Match Data**: Real-time updates on odds, scores, and statistics
+- **User Profiles**: Track your betting history and performance
+- **Community Features**: Engage with other users through match discussions
 
-## Technology Stack
+## Tech Stack
 
-- **Frontend**: Next.js, Tailwind CSS, RainbowKit
-- **Backend**: Node.js, Express, MongoDB
-- **Blockchain**: Solidity, Hardhat
-- **AI**: OpenAI GPT, Custom ML Models
-- **Infrastructure**: Digital Ocean, Vercel
+- **Frontend**: Next.js 14, React 18, TailwindCSS
+- **Blockchain**: Polygon (Mainnet & Mumbai Testnet)
+- **Wallet**: RainbowKit, Wagmi
+- **Styling**: TailwindCSS with custom gradients and glass morphism
+- **State Management**: React Hooks with TypeScript
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+- MetaMask or any WalletConnect compatible wallet
+
+### Installation
+
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/0xMgwan/betua.git
-   cd betua
-   ```
+```bash
+git clone https://github.com/yourusername/betua.git
+cd betua
+```
 
 2. Install dependencies:
-   ```bash
-   # Install frontend dependencies
-   cd frontend
-   npm install
-
-   # Install backend dependencies
-   cd ../backend
-   npm install
-
-   # Install contract dependencies
-   cd ../contracts
-   npm install
-   ```
+```bash
+# Install frontend dependencies
+cd frontend
+npm install
+```
 
 3. Set up environment variables:
-   ```bash
-   # Frontend
-   cp frontend/.env.example frontend/.env
+Create a `.env.local` file in the frontend directory with:
+```env
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_project_id
+NEXT_PUBLIC_ENVIRONMENT=development
+```
 
-   # Backend
-   cp backend/.env.example backend/.env
+4. Run the development server:
+```bash
+npm run dev
+```
 
-   # Smart Contracts
-   cp contracts/.env.example contracts/.env
-   ```
+Visit `http://localhost:3000` to see the application.
 
-4. Start development servers:
-   ```bash
-   # Start frontend
-   cd frontend
-   npm run dev
+## Deployment
 
-   # Start backend
-   cd ../backend
-   npm run dev
-   ```
+The application is deployed on Vercel. To deploy your own instance:
 
-## Documentation
+1. Fork this repository
+2. Create a new project on [Vercel](https://vercel.com)
+3. Connect your forked repository
+4. Set the environment variables:
+   - `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID`
+   - `NEXT_PUBLIC_ENVIRONMENT`
+5. Deploy!
 
-- [API Documentation](./docs/api.md)
-- [Smart Contract Documentation](./docs/contracts.md)
-- [Frontend Documentation](./docs/frontend.md)
+## Smart Contracts
+
+The betting smart contracts are deployed on:
+- Polygon Mumbai (Testnet): `[Contract Address]`
+- Polygon Mainnet: `[Contract Address]`
 
 ## Contributing
 
-Please read our [Contributing Guidelines](./CONTRIBUTING.md) before submitting any pull requests.
-
-## Security
-
-For security concerns, please refer to our [Security Policy](./SECURITY.md).
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/YourFeature`
+3. Commit changes: `git commit -m 'Add YourFeature'`
+4. Push to the branch: `git push origin feature/YourFeature`
+5. Submit a pull request
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions or support, please open an issue in the repository.
