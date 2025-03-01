@@ -1,29 +1,40 @@
 const hre = require("hardhat");
 
 async function main() {
-  // Mumbai USDC address
-  const USDC_ADDRESS = "0x0FA8781a83E46826621b3BC094Ea2A0212e71B23";
+  // Polygon Amoy USDC address (we'll use a mock USDC for testing)
+  const MockUSDC = await hre.ethers.getContractFactory("MockUSDC");
+  const mockUSDC = await MockUSDC.deploy();
+  await mockUSDC.deployed();
+  console.log("MockUSDC deployed to:", mockUSDC.address);
 
-  console.log("Deploying BetUA contract...");
-  const BetUA = await hre.ethers.getContractFactory("BetUA");
-  const betUA = await BetUA.deploy(USDC_ADDRESS);
+  console.log("Deploying P2PMarketV2 contract...");
+  const P2PMarket = await hre.ethers.getContractFactory("P2PMarketV2");
+  const p2pMarket = await P2PMarket.deploy(mockUSDC.address);
 
-  await betUA.deployed();
+  await p2pMarket.deployed();
 
-  console.log("BetUA deployed to:", betUA.address);
+  console.log("P2PMarketV2 deployed to:", p2pMarket.address);
   console.log("Waiting for block confirmations...");
   
   // Wait for 6 block confirmations
-  await betUA.deployTransaction.wait(6);
+  await p2pMarket.deployTransaction.wait(6);
   
-  // Verify the contract
-  console.log("Verifying contract on Polygonscan...");
+  // Verify the contracts
+  console.log("Verifying contracts on Polygonscan...");
+  
+  // Verify MockUSDC
   await hre.run("verify:verify", {
-    address: betUA.address,
-    constructorArguments: [USDC_ADDRESS],
+    address: mockUSDC.address,
+    constructorArguments: [],
+  });
+  
+  // Verify P2PMarketV2
+  await hre.run("verify:verify", {
+    address: p2pMarket.address,
+    constructorArguments: [mockUSDC.address],
   });
 
-  console.log("Contract verified successfully!");
+  console.log("Contracts verified successfully!");
 }
 
 main().catch((error) => {
