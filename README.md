@@ -1,4 +1,4 @@
-https://betua-two.vercel.app/
+[https://betua-two.vercel.app/](https://betuav2.vercel.app/)
 # BetUA - AI-Powered Sports Betting Platform
 
 BetUA is a modern sports betting platform that combines AI-powered predictions with blockchain technology to provide a transparent and engaging betting experience for all sports and prediction markets globally.
