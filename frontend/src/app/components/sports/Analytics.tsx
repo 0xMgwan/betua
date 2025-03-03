@@ -14,6 +14,7 @@ import {
 } from 'chart.js';
 import { useContractRead } from 'wagmi';
 import { formatUnits } from 'viem';
+import { type Abi } from 'viem';
 import SportsBettingABI from '../../../contracts/abis/SportsBetting.json';
 
 ChartJS.register(
@@ -43,6 +44,8 @@ interface SportStats {
   profitLoss: number;
 }
 
+const contractAbi = SportsBettingABI.abi as Abi;
+
 export default function Analytics() {
   const [timeframe, setTimeframe] = useState('7d');
   const [betStats, setBetStats] = useState<BetStats>({
@@ -56,9 +59,9 @@ export default function Analytics() {
   const [profitHistory, setProfitHistory] = useState<number[]>([]);
   const [labels, setLabels] = useState<string[]>([]);
 
-  const { data: userBets } = useContractRead({
+  const { data: userBets } = useContractRead<typeof contractAbi, 'getUserBets', any[]>({
     address: process.env.NEXT_PUBLIC_SPORTS_BETTING_ADDRESS as `0x${string}`,
-    abi: SportsBettingABI,
+    abi: contractAbi,
     functionName: 'getUserBets',
     args: ['0x'], // Current user address would go here
   });
