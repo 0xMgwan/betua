@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation } from '../components/Navigation';
+import { Container, Heading } from '@chakra-ui/react';
 import Logo from '../components/Logo';
 import { WalletButton } from '../components/WalletButton';
 
@@ -22,13 +22,11 @@ export default function ProfilePage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-black">
-      <Navigation />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Container maxW="container.xl" py={8}>
+        <Heading size="lg" mb={6}>Profile Dashboard</Heading>
         <div className="bg-gradient-to-br from-black/50 to-blue-900/20 backdrop-blur-sm rounded-xl p-8 border border-blue-500/10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">Profile Dashboard</h1>
               <p className="text-gray-400">Manage your bets and track your performance</p>
             </div>
             <div className="mt-4 md:mt-0">
@@ -97,7 +95,7 @@ export default function ProfilePage() {
             ))}
           </div>
         </div>
-      </div>
+      </Container>
     </main>
   );
 }

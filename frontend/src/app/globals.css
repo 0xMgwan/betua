@@ -3,8 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 25, 48;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+  min-height: 100vh;
 }
 
 /* Apple-like smooth fonts */
@@ -14,11 +25,6 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
 }
 
 /* Custom Styles */
@@ -76,9 +82,4 @@ h1 {
 
 h2 {
   @apply text-2xl font-semibold tracking-tight;
-}
-
-/* Navigation */
-.nav-link {
-  @apply text-gray-600 hover:text-black transition-colors duration-300;
 }
