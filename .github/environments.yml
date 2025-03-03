@@ -1,0 +1,21 @@
+name: GitHub Environments Configuration
+
+environments:
+  production:
+    deployment_branch_policy:
+      protected_branches: true
+      custom_branches:
+        - main
+    
+    required_reviewers:
+      - 0xMgwan
+    
+    deployment_protection_rules:
+      required_reviewers: 1
+      wait_timer: 0
+
+  preview:
+    auto_deployment: false
+    deployment_branch_policy:
+      protected_branches: false
+      custom_branches: []
