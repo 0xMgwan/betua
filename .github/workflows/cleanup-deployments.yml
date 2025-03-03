@@ -1,0 +1,67 @@
+name: Cleanup Deployments
+
+on:
+  workflow_dispatch:  # Manual trigger
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old deployments
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const deployments = await github.rest.repos.listDeployments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100
+            });
+            
+            // Keep track of the latest production deployment
+            let productionDeployment = null;
+            for (const deployment of deployments.data) {
+              if (deployment.environment === 'Production' && !productionDeployment) {
+                productionDeployment = deployment;
+                continue;
+              }
+              
+              // Delete deployment statuses first
+              try {
+                const statuses = await github.rest.repos.listDeploymentStatuses({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  deployment_id: deployment.id
+                });
+                
+                for (const status of statuses.data) {
+                  await github.rest.repos.deleteDeploymentStatus({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    deployment_id: deployment.id,
+                    status_id: status.id
+                  });
+                }
+              } catch (error) {
+                console.log(`Error deleting statuses for deployment ${deployment.id}: ${error.message}`);
+              }
+              
+              // Delete the deployment
+              try {
+                await github.rest.repos.deleteDeployment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  deployment_id: deployment.id
+                });
+                console.log(`Deleted deployment ${deployment.id}`);
+              } catch (error) {
+                console.log(`Error deleting deployment ${deployment.id}: ${error.message}`);
+              }
+            }
+            
+            console.log('Cleanup completed');
+            if (productionDeployment) {
+              console.log(`Kept production deployment: ${productionDeployment.id}`);
+            }
