@@ -1,13 +1,9 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
 import { Providers } from './providers';
+import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-  title: 'BetUA - AI-Powered Sports Betting',
-  description: 'Experience the future of sports betting with AI-powered predictions and blockchain technology',
+export const metadata = {
+  title: 'BetUA',
+  description: 'AI-Powered Sports Betting Platform',
 };
 
 export default function RootLayout({
@@ -17,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <Providers>
           {children}
         </Providers>
