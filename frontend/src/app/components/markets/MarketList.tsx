@@ -43,7 +43,7 @@ export default function MarketList() {
     functionName: 'getMarketCount',
   });
 
-  const { data: marketData } = useContractRead({
+  const { data: marketData } = useContractRead<typeof contractAbi, 'getMarkets', Market[]>({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
     abi: contractAbi,
     functionName: 'getMarkets',
