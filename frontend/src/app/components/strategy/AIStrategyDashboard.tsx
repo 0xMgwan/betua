@@ -30,6 +30,8 @@ interface Strategy {
   winningBets: bigint;
 }
 
+const contractAbi = BettingStrategyABI.abi as any;
+
 export default function AIStrategyDashboard() {
   const toast = useChakraToast();
   const [selectedStrategy, setSelectedStrategy] = useState<number | null>(null);
@@ -40,22 +42,22 @@ export default function AIStrategyDashboard() {
 
   const aiService = new AIStrategyService();
 
-  const { data: strategies } = useContractRead({
+  const { data: strategies } = useContractRead<typeof contractAbi, 'getStrategies', Strategy[]>({
     address: process.env.NEXT_PUBLIC_BETTING_STRATEGY_ADDRESS as `0x${string}`,
-    abi: BettingStrategyABI,
+    abi: contractAbi,
     functionName: 'getStrategies',
   });
 
-  const { data: userStrategies } = useContractRead({
+  const { data: userStrategies } = useContractRead<typeof contractAbi, 'getUserStrategies', Strategy[]>({
     address: process.env.NEXT_PUBLIC_BETTING_STRATEGY_ADDRESS as `0x${string}`,
-    abi: BettingStrategyABI,
+    abi: contractAbi,
     functionName: 'getUserStrategies',
     args: ['0x'], // Current user address
   });
 
   const { write: subscribeToStrategy } = useContractWrite({
     address: process.env.NEXT_PUBLIC_BETTING_STRATEGY_ADDRESS as `0x${string}`,
-    abi: BettingStrategyABI,
+    abi: contractAbi,
     functionName: 'subscribeToStrategy',
   });
 

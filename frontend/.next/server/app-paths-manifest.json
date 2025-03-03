@@ -6,8 +6,8 @@
   "/markets/[id]/page": "app/markets/[id]/page.js",
   "/markets/create/page": "app/markets/create/page.js",
   "/markets/page": "app/markets/page.js",
-  "/page": "app/page.js",
   "/predictions/page": "app/predictions/page.js",
+  "/page": "app/page.js",
   "/profile/page": "app/profile/page.js",
   "/sports/page": "app/sports/page.js",
   "/strategy/page": "app/strategy/page.js"
