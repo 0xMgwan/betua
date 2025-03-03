@@ -1,5 +1,8 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useContractRead } from 'wagmi';
+import { type Abi } from 'viem';
 import SportsBettingABI from '@/contracts/abis/SportsBetting.json';
 import { Tab } from '@headlessui/react';
 import { formatUnits } from 'viem';
@@ -37,6 +40,8 @@ interface Market {
   odds: { [key: number]: number };
 }
 
+const contractAbi = SportsBettingABI.abi as Abi;
+
 const categories = [
   { id: 'popular', name: 'Popular' },
   { id: 'live', name: 'Live' },
@@ -60,9 +65,9 @@ export default function SportsList() {
   const [selectedSport, setSelectedSport] = useState('all');
   const [matches, setMatches] = useState<Match[]>([]);
 
-  const { data: nextMatchId } = useContractRead({
+  const { data: nextMatchId } = useContractRead<typeof contractAbi, 'nextMatchId', number>({
     address: process.env.NEXT_PUBLIC_SPORTS_BETTING_ADDRESS as `0x${string}`,
-    abi: SportsBettingABI,
+    abi: contractAbi,
     functionName: 'nextMatchId'
   });
 
