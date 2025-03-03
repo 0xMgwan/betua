@@ -1,15 +1,10 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useContractRead, useContractWrite, usePrepareContractWrite } from 'wagmi';
-import { formatUnits, parseUnits } from 'viem';
+import { parseUnits, type Abi } from 'viem';
 import { useToast } from '@chakra-ui/react';
 import P2PMarketV2ABI from '@/contracts/abis/P2PMarketV2.json';
-
-enum MarketType {
-  BINARY = 0,
-  MULTIPLE_CHOICE = 1,
-  NUMERIC_RANGE = 2,
-  ORACLE_FEED = 3
-}
 
 interface Market {
   creator: string;
@@ -35,6 +30,15 @@ interface MarketTradeProps {
   marketId: number;
 }
 
+enum MarketType {
+  BINARY = 'BINARY',
+  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+  NUMERIC_RANGE = 'NUMERIC_RANGE',
+  ORACLE_FEED = 'ORACLE_FEED'
+}
+
+const contractAbi = P2PMarketV2ABI.abi as Abi;
+
 export default function MarketTrade({ marketId }: MarketTradeProps) {
   const toast = useToast();
   const [amount, setAmount] = useState('');
@@ -43,28 +47,28 @@ export default function MarketTrade({ marketId }: MarketTradeProps) {
 
   const { data: market } = useContractRead({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
-    abi: P2PMarketV2ABI,
+    abi: contractAbi,
     functionName: 'getMarketInfo',
     args: [marketId],
   });
 
   const { data: userPosition } = useContractRead({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
-    abi: P2PMarketV2ABI,
+    abi: contractAbi,
     functionName: 'getUserPosition',
     args: [marketId],
   });
 
   const { data: entryPrice } = useContractRead({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
-    abi: P2PMarketV2ABI,
+    abi: contractAbi,
     functionName: 'calculateEntryPrice',
     args: [marketId, selectedOption, amount ? parseUnits(amount, 6) : 0n],
   });
 
   const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
-    abi: P2PMarketV2ABI,
+    abi: contractAbi,
     functionName: 'takePosition',
     args: [marketId, selectedOption, amount ? parseUnits(amount, 6) : 0n],
   });

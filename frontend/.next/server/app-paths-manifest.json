@@ -1,14 +1,14 @@
 {
-  "/comments/page": "app/comments/page.js",
-  "/markets/create/page": "app/markets/create/page.js",
-  "/betting/page": "app/betting/page.js",
-  "/markets/page": "app/markets/page.js",
   "/ai-agent/page": "app/ai-agent/page.js",
-  "/predictions/page": "app/predictions/page.js",
+  "/betting/page": "app/betting/page.js",
   "/_not-found": "app/_not-found.js",
+  "/comments/page": "app/comments/page.js",
+  "/markets/page": "app/markets/page.js",
+  "/page": "app/page.js",
+  "/predictions/page": "app/predictions/page.js",
+  "/sports/page": "app/sports/page.js",
   "/markets/[id]/page": "app/markets/[id]/page.js",
   "/profile/page": "app/profile/page.js",
-  "/page": "app/page.js",
   "/strategy/page": "app/strategy/page.js",
-  "/sports/page": "app/sports/page.js"
+  "/markets/create/page": "app/markets/create/page.js"
 }

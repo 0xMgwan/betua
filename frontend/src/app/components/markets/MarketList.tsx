@@ -1,15 +1,10 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { useContractRead } from 'wagmi';
-import { formatUnits } from 'viem';
+import { type Abi } from 'viem';
 import P2PMarketV2ABI from '@/contracts/abis/P2PMarketV2.json';
 import Link from 'next/link';
-
-enum MarketType {
-  BINARY = 0,
-  MULTIPLE_CHOICE = 1,
-  NUMERIC_RANGE = 2,
-  ORACLE_FEED = 3
-}
 
 interface Market {
   id: number;
@@ -23,7 +18,20 @@ interface Market {
   outcome: number;
   marketType: MarketType;
   options: number[];
+  minimumBet: bigint;
+  oracle: string;
+  isResolved: boolean;
+  winningOption: number;
 }
+
+enum MarketType {
+  BINARY = 'BINARY',
+  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+  NUMERIC_RANGE = 'NUMERIC_RANGE',
+  ORACLE_FEED = 'ORACLE_FEED'
+}
+
+const contractAbi = P2PMarketV2ABI.abi as Abi;
 
 export default function MarketList() {
   const [markets, setMarkets] = useState<Market[]>([]);
@@ -31,13 +39,13 @@ export default function MarketList() {
 
   const { data: nextMarketId } = useContractRead({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
-    abi: P2PMarketV2ABI,
+    abi: contractAbi,
     functionName: 'nextMarketId',
   });
 
   const { data: marketInfo, refetch } = useContractRead({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
-    abi: P2PMarketV2ABI,
+    abi: contractAbi,
     functionName: 'getMarketInfo',
     args: [0], // Will be updated in the loop
   });
@@ -136,7 +144,7 @@ export default function MarketList() {
                 <div className="flex justify-between">
                   <span>Total Liquidity:</span>
                   <span className="font-medium">
-                    {formatUnits(market.totalLiquidity, 6)} USDC
+                    {market.totalLiquidity.toString()} USDC
                   </span>
                 </div>
 

@@ -29,13 +29,14 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { parseUnits } from 'viem';
+import { type Abi } from 'viem';
 import P2PMarketV2ABI from '@/contracts/abis/P2PMarketV2.json';
 
 enum MarketType {
-  BINARY = 0,
-  MULTIPLE_CHOICE = 1,
-  NUMERIC_RANGE = 2,
-  ORACLE_FEED = 3
+  BINARY = 'BINARY',
+  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+  NUMERIC_RANGE = 'NUMERIC_RANGE',
+  ORACLE_FEED = 'ORACLE_FEED'
 }
 
 interface CreateMarketFormData {
@@ -49,6 +50,8 @@ interface CreateMarketFormData {
   oracle: string;
   initialLiquidity: string;
 }
+
+const contractAbi = P2PMarketV2ABI.abi as Abi;
 
 export default function CreateMarket() {
   const toast = useToast();
@@ -66,7 +69,7 @@ export default function CreateMarket() {
 
   const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
-    abi: P2PMarketV2ABI,
+    abi: contractAbi,
     functionName: 'createMarket',
     args: [{
       question: formData.question,
@@ -193,7 +196,7 @@ export default function CreateMarket() {
               <FormLabel color="gray.300">Market Type</FormLabel>
               <Select
                 value={formData.marketType}
-                onChange={(e) => setFormData(prev => ({ ...prev, marketType: Number(e.target.value) }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, marketType: e.target.value as MarketType }))}
                 bg="gray.700"
                 border="none"
                 color="white"
