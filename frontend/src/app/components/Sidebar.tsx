@@ -1,7 +1,7 @@
 'use client';
 
 import { VStack, Box, Text, Link, Icon, HStack } from '@chakra-ui/react';
-import { FaBasketball, FaFutbol, FaHockeyPuck, FaBaseballBall, FaTrophy, FaChartLine } from 'react-icons/fa';
+import { FaBasketballBall, FaFutbol, FaHockeyPuck, FaBaseballBall, FaTrophy, FaChartLine } from 'react-icons/fa';
 
 export function Sidebar() {
   const quickLinks = [
@@ -12,7 +12,7 @@ export function Sidebar() {
   ];
 
   const popularSports = [
-    { name: 'Basketball', icon: FaBasketball },
+    { name: 'Basketball', icon: FaBasketballBall },
     { name: 'Soccer', icon: FaFutbol },
     { name: 'Hockey', icon: FaHockeyPuck },
     { name: 'Baseball', icon: FaBaseballBall },
