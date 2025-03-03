@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
-import { parseUnits, formatUnits } from 'viem';
+import { parseUnits, type Abi } from 'viem';
 import { useToast } from '@chakra-ui/react';
 import SportsBettingABI from '@/contracts/abis/SportsBetting.json';
 
@@ -20,6 +20,8 @@ interface BetSlipProps {
   onRemoveBet: (marketId: number) => void;
   onClearSlip: () => void;
 }
+
+const contractAbi = SportsBettingABI.abi as Abi;
 
 export default function BetSlip({ bets, onRemoveBet, onClearSlip }: BetSlipProps) {
   const toast = useToast();
@@ -56,7 +58,7 @@ export default function BetSlip({ bets, onRemoveBet, onClearSlip }: BetSlipProps
 
   const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_SPORTS_BETTING_ADDRESS as `0x${string}`,
-    abi: SportsBettingABI,
+    abi: contractAbi,
     functionName: 'placeBet',
     args: [bets[0]?.marketId, bets[0]?.outcome, parseUnits(stakes[bets[0]?.marketId] || '0', 6)],
     enabled: bets.length > 0 && !!stakes[bets[0]?.marketId],
