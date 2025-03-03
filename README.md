@@ -55,7 +55,7 @@ NEXT_PUBLIC_ENVIRONMENT=development
 npm run dev
 ```
 
-Visit `https://betua-two.vercel.app/` to see the application.
+Visit `http://localhost:3000/` to see the application.
 
 ## Deployment
 
