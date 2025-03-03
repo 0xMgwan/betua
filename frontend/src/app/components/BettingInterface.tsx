@@ -15,7 +15,7 @@ import {
   Button,
   Icon,
 } from '@chakra-ui/react';
-import { FaBasketball, FaFutbol, FaHockeyPuck, FaBaseballBall, FaVolleyballBall } from 'react-icons/fa';
+import { FaBasketballBall, FaFutbol, FaHockeyPuck, FaBaseballBall, FaVolleyballBall } from 'react-icons/fa';
 
 const sportsData = {
   basketball: [
@@ -194,7 +194,7 @@ export default function BettingInterface() {
     <Box bg="gray.900" borderRadius="xl" p={6}>
       <Tabs variant="soft-rounded" colorScheme="blue" mb={6}>
         <TabList>
-          <Tab><Icon as={FaBasketball} mr={2} />Basketball</Tab>
+          <Tab><Icon as={FaBasketballBall} mr={2} />Basketball</Tab>
           <Tab><Icon as={FaFutbol} mr={2} />Soccer</Tab>
           <Tab><Icon as={FaHockeyPuck} mr={2} />Hockey</Tab>
           <Tab><Icon as={FaBaseballBall} mr={2} />Baseball</Tab>
