@@ -37,42 +37,33 @@ export default function MarketList() {
   const [markets, setMarkets] = useState<Market[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const { data: nextMarketId } = useContractRead({
+  const { data: marketCount } = useContractRead({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
     abi: contractAbi,
-    functionName: 'nextMarketId',
+    functionName: 'getMarketCount',
   });
 
-  const { data: marketInfo, refetch } = useContractRead({
+  const { data: marketData } = useContractRead({
     address: process.env.NEXT_PUBLIC_P2P_MARKET_ADDRESS as `0x${string}`,
     abi: contractAbi,
-    functionName: 'getMarketInfo',
-    args: [0], // Will be updated in the loop
+    functionName: 'getMarkets',
+    args: [0, Number(marketCount || 0)],
+    watch: true,
   });
 
   useEffect(() => {
-    const fetchMarkets = async () => {
-      if (!nextMarketId) return;
-
-      const marketPromises = [];
-      for (let i = 1; i < Number(nextMarketId); i++) {
-        marketPromises.push(refetch({ args: [i] }));
-      }
-
-      const marketResults = await Promise.all(marketPromises);
-      const validMarkets = marketResults
-        .map((result, index) => ({
+    if (marketData) {
+      const validMarkets = marketData
+        .map((market: any, index: number) => ({
           id: index + 1,
-          ...result.data,
+          ...market,
         }))
-        .filter(market => market.creator !== '0x0000000000000000000000000000000000000000');
+        .filter((market: any) => market.creator !== '0x0000000000000000000000000000000000000000');
 
       setMarkets(validMarkets);
       setLoading(false);
-    };
-
-    fetchMarkets();
-  }, [nextMarketId]);
+    }
+  }, [marketData]);
 
   const getMarketTypeString = (type: MarketType) => {
     switch (type) {
