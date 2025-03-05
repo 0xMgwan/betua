@@ -15,7 +15,7 @@ BetUA is a modern sports betting platform that combines AI-powered predictions w
 ## Tech Stack
 
 - **Frontend**: Next.js 14, React 18, TailwindCSS
-- **Blockchain**: Polygon (Mainnet & Mumbai Testnet)
+- **Blockchain**: Polygon (Amoy Testnet), Sepolia
 - **Wallet**: RainbowKit, Wagmi
 - **Styling**: TailwindCSS with custom gradients and glass morphism
 - **State Management**: React Hooks with TypeScript
@@ -72,8 +72,8 @@ The application is deployed on Vercel. To deploy your own instance:
 ## Smart Contracts
 
 The betting smart contracts are deployed on:
+- Polygon Amoy (Testnet): `0x3af1d3f1aEB5dD745F6e1F0EfBc557201fd408D0`
 - Sepolia: `[0x8fD222cd4E8eeBB2d1357A62DBF9aC753A83AE25]`
-- Polygon Mumbai (Testnet): `[TBC]`
 
 ## Contributing
 
