@@ -73,7 +73,7 @@ The application is deployed on Vercel. To deploy your own instance:
 
 The betting smart contracts are deployed on:
 - Polygon Amoy (Testnet): `0x3af1d3f1aEB5dD745F6e1F0EfBc557201fd408D0`
-- Sepolia: `[0x8fD222cd4E8eeBB2d1357A62DBF9aC753A83AE25]`
+- Sepolia: `0x8fD222cd4E8eeBB2d1357A62DBF9aC753A83AE25`
 
 ## Contributing
 
