@@ -32,7 +32,7 @@ BetUA is a modern sports betting platform that combines AI-powered predictions w
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/betua.git
+git clone https://github.com/0xMgwan/betua.git
 cd betua
 ```
 
