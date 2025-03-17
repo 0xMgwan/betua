@@ -2,6 +2,7 @@
 
 import { Box, Container, Heading, Text, Button, Flex, VStack, HStack, Icon } from '@chakra-ui/react';
 import MatchesList from './components/sports/MatchesList';
+import Leaderboard from './components/sports/Leaderboard';
 import { FaTrophy, FaRobot, FaChartLine } from 'react-icons/fa';
 
 export default function Home() {
@@ -53,6 +54,28 @@ export default function Home() {
         </Button>
       </Flex>
       <MatchesList />
+      
+      {/* Leaderboard Section */}
+      <Box mt={12} mb={8}>
+        <Heading size="lg" color="white" mb={6}>Top Earners Leaderboard</Heading>
+        <Box 
+          as="section"
+          position="relative"
+          _before={{
+            content: '""',
+            position: 'absolute',
+            top: '-20px',
+            left: '0',
+            right: '0',
+            height: '100px',
+            bgGradient: 'linear(to-b, transparent, navy.900)',
+            zIndex: '-1',
+          }}
+        >
+          {/* Import the Leaderboard component */}
+          <Leaderboard />
+        </Box>
+      </Box>
     </Container>
   );
 }
