@@ -16,8 +16,17 @@ import usdcAbi from '@/contracts/abis/USDC.json';
 import TokenSelector from '../TokenSelector';
 
 interface BetSlipProps {
-  selectedMatches: any[];
-  onClose: () => void;
+  bets: {
+    matchId: number;
+    marketId: number;
+    outcome: number;
+    odds: number;
+    homeTeam: string;
+    awayTeam: string;
+    marketType: string;
+  }[];
+  onRemoveBet: (marketId: number) => void;
+  onClearSlip: () => void;
 }
 
 const tokens = [
@@ -35,7 +44,7 @@ const tokens = [
   },
 ];
 
-const BetSlip: React.FC<BetSlipProps> = ({ selectedMatches, onClose }) => {
+const BetSlip: React.FC<BetSlipProps> = ({ bets, onRemoveBet, onClearSlip }) => {
   const [stakes, setStakes] = useState<{ [key: string]: string }>({});
   const [needsApproval, setNeedsApproval] = useState(true);
   const [selectedToken, setSelectedToken] = useState(tokens[0]); // Default to USDC
@@ -51,6 +60,14 @@ const BetSlip: React.FC<BetSlipProps> = ({ selectedMatches, onClose }) => {
     (sum, stake) => sum + (parseFloat(stake) || 0),
     0
   );
+  
+  // Convert bets to selectedMatches format for compatibility
+  const selectedMatches = bets.map(bet => ({
+    id: bet.marketId.toString(),
+    homeTeam: bet.homeTeam,
+    awayTeam: bet.awayTeam,
+    selectedTeam: bet.outcome === 1 ? 'home' : 'away'
+  }));
 
   const { config: approvalConfig } = usePrepareContractWrite({
     address: selectedToken.address,
@@ -65,7 +82,7 @@ const BetSlip: React.FC<BetSlipProps> = ({ selectedMatches, onClose }) => {
 
   const { config: betConfig } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_SPORTS_BETTING_ADDRESS as `0x${string}`,
-    abi: sportsBettingABI,
+    abi: sportsBettingABI.abi,
     functionName: 'placeBet',
     args: [
       selectedMatches.map((match) => ({
@@ -102,7 +119,7 @@ const BetSlip: React.FC<BetSlipProps> = ({ selectedMatches, onClose }) => {
         duration: 5000,
         isClosable: true,
       });
-      onClose();
+      onClearSlip();
     },
   });
 

@@ -114,7 +114,7 @@ export default function CommentsDropdown({ matchId }: CommentsDropdownProps) {
         onClick={onToggle}
         _hover={{ bg: 'blue.900' }}
       >
-        Comments ({comments.length})
+        <Text color="white">Comments ({comments.length})</Text>
       </Button>
 
       <Collapse in={isOpen} animateOpacity>

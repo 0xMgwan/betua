@@ -214,12 +214,12 @@ export default function Leaderboard() {
         <Table variant="simple" size="md">
           <Thead>
             <Tr>
-              <Th>Rank</Th>
-              <Th>Bettor</Th>
-              <Th isNumeric>Earnings</Th>
-              <Th isNumeric>Win Rate</Th>
-              <Th isNumeric>Streak</Th>
-              <Th>Achievements</Th>
+              <Th color="black">Rank</Th>
+              <Th color="black">Bettor</Th>
+              <Th isNumeric color="black">Earnings</Th>
+              <Th isNumeric color="black">Win Rate</Th>
+              <Th isNumeric color="black">Streak</Th>
+              <Th color="black">Achievements</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -243,30 +243,30 @@ export default function Leaderboard() {
                   <HStack>
                     <Avatar size="sm" name={entry.name} src={entry.avatar} />
                     <VStack align="start" spacing={0}>
-                      <Text fontWeight="bold">{entry.name}</Text>
-                      <Text fontSize="xs" color="gray.500">{entry.address}</Text>
+                      <Text fontWeight="bold" color="black">{entry.name}</Text>
+                      <Text fontSize="xs" color="gray.600">{entry.address}</Text>
                     </VStack>
                   </HStack>
                 </Td>
                 <Td isNumeric>
                   <HStack justify="flex-end">
                     <Icon as={FaEthereum} color="purple.400" />
-                    <Text fontWeight="bold">{entry.earnings.toFixed(2)}</Text>
+                    <Text fontWeight="bold" color="black">{entry.earnings.toFixed(2)}</Text>
                   </HStack>
                 </Td>
                 <Td isNumeric>
-                  <Text fontWeight="semibold">{entry.winRate}%</Text>
+                  <Text fontWeight="semibold" color="black">{entry.winRate}%</Text>
                 </Td>
                 <Td isNumeric>
                   <HStack justify="flex-end">
-                    <Text>{entry.streak}</Text>
+                    <Text color="black">{entry.streak}</Text>
                     {entry.streak >= 3 && <Icon as={FaFire} color="orange.500" />}
                   </HStack>
                 </Td>
                 <Td>
                   <Flex>
                     {entry.badges.map((badge, i) => (
-                      <Text key={i} fontSize="xl" mx={1}>{badge}</Text>
+                      <Text key={i} fontSize="xl" mx={1} color="black">{badge}</Text>
                     ))}
                   </Flex>
                 </Td>
