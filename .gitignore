@@ -9,6 +9,7 @@ node_modules/
 # Next.js
 /.next/
 /out/
+frontend/.next/
 
 # Production
 /build
@@ -20,6 +21,7 @@ node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
+frontend/env.temp
 
 # Debug logs
 npm-debug.log*
@@ -58,6 +60,12 @@ artifacts/
 
 # MongoDB data
 /data/
+
+# Vercel
+.vercel/
+
+# Scripts
+scripts/
 
 # Logs
 logs
